@@ -67,12 +67,12 @@ export interface WorkflowSpec {
 
 export interface TemplateDefinition {
   name: string;
-  container?: any;
-  dag?: any;
-  steps?: any;
-  script?: any;
-  resource?: any;
-  suspend?: any;
-  inputs?: any;
-  outputs?: any;
+  container?: ContainerConfig;
+  dag?: DAGConfig;
+  steps?: StepsConfig;
+  script?: ScriptConfig;
+  resource?: ResourceConfig;
+  suspend?: Record<string, never>;
+  inputs?: Record<string, unknown>;
+  outputs?: Record<string, unknown>;
 }

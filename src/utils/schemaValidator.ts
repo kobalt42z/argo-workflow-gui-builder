@@ -1,19 +1,13 @@
-import Ajv, { type ValidateFunction } from 'ajv';
+import type { WorkflowSpec } from '../types/workflow';
 
 /**
  * JSON Schema validator for Argo Workflows
  */
 class SchemaValidator {
-  private ajv: Ajv;
-  private validateFunction: ValidateFunction | null = null;
   private initialized: boolean = false;
 
   constructor() {
-    this.ajv = new Ajv({
-      allErrors: true,
-      strict: false,
-      validateFormats: false,
-    });
+    // Validator initialization moved to initialize method
   }
 
   /**
@@ -35,7 +29,7 @@ class SchemaValidator {
   /**
    * Validate a workflow object against the schema
    */
-  validate(workflow: any): { valid: boolean; errors: string[] } {
+  validate(workflow: WorkflowSpec): { valid: boolean; errors: string[] } {
     this.initialize();
     
     // Basic validation - check required fields
@@ -66,7 +60,8 @@ class SchemaValidator {
   /**
    * Get schema definitions for a specific type
    */
-  getDefinition(definitionKey: string): any {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getDefinition(_definitionKey: string): Record<string, unknown> {
     // Return empty object for now
     return {};
   }

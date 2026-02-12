@@ -55,6 +55,7 @@ function App() {
       id: node.id,
       type: node.type as WorkflowNode['type'],
       position: node.position,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: node.data as any,
     }));
 

@@ -1,5 +1,14 @@
 import yaml from 'js-yaml';
-import type { WorkflowSpec, WorkflowNode } from '../types/workflow';
+import type { 
+  WorkflowSpec, 
+  WorkflowNode, 
+  TemplateDefinition,
+  ContainerConfig,
+  DAGConfig,
+  StepsConfig,
+  ScriptConfig,
+  ResourceConfig
+} from '../types/workflow';
 
 /**
  * Converts workflow nodes to Argo Workflow YAML format
@@ -17,27 +26,27 @@ export function nodesToWorkflowSpec(
     },
     spec: {
       entrypoint: nodes.length > 0 ? nodes[0].data.name : 'main',
-      templates: nodes.map((node) => ({
-        name: node.data.name,
-        ...(node.type === 'container' && node.data.config && {
-          container: node.data.config,
-        }),
-        ...(node.type === 'dag' && node.data.config && {
-          dag: node.data.config,
-        }),
-        ...(node.type === 'steps' && node.data.config && {
-          steps: node.data.config,
-        }),
-        ...(node.type === 'script' && node.data.config && {
-          script: node.data.config,
-        }),
-        ...(node.type === 'resource' && node.data.config && {
-          resource: node.data.config,
-        }),
-        ...(node.type === 'suspend' && {
-          suspend: {},
-        }),
-      })),
+      templates: nodes.map((node) => {
+        const template: TemplateDefinition = {
+          name: node.data.name,
+        };
+        
+        if (node.type === 'container' && node.data.config) {
+          template.container = node.data.config as ContainerConfig;
+        } else if (node.type === 'dag' && node.data.config) {
+          template.dag = node.data.config as DAGConfig;
+        } else if (node.type === 'steps' && node.data.config) {
+          template.steps = node.data.config as StepsConfig;
+        } else if (node.type === 'script' && node.data.config) {
+          template.script = node.data.config as ScriptConfig;
+        } else if (node.type === 'resource' && node.data.config) {
+          template.resource = node.data.config as ResourceConfig;
+        } else if (node.type === 'suspend') {
+          template.suspend = {};
+        }
+        
+        return template;
+      }),
     },
   };
 

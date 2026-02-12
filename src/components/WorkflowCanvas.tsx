@@ -18,8 +18,11 @@ import { DAGNode } from './nodes/DAGNode';
 import { ScriptNode } from './nodes/ScriptNode';
 
 const nodeTypes: NodeTypes = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   container: ContainerNode as any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dag: DAGNode as any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   script: ScriptNode as any,
 };
 
@@ -54,6 +57,7 @@ export function WorkflowCanvas({ nodes: externalNodes, edges: externalEdges, onN
   );
 
   const handleNodesChange = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (changes: any) => {
       onNodesChangeInternal(changes);
       if (onNodesChange) {
@@ -64,6 +68,7 @@ export function WorkflowCanvas({ nodes: externalNodes, edges: externalEdges, onN
   );
 
   const handleEdgesChange = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (changes: any) => {
       onEdgesChangeInternal(changes);
       if (onEdgesChange) {
